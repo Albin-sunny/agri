@@ -1,0 +1,128 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+    .order-table {
+        width: 70%;
+        margin: 30px auto;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .order-table th, .order-table td {
+        padding: 8px 10px;
+        text-align: center;
+        border-bottom: 1px solid #e0e0e0;
+        word-break: break-word;
+    }
+
+    .order-table th {
+        background-color: #4CAF50;
+        color: white;
+        font-size: 12px;
+    }
+
+    .order-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .order-table tr:hover {
+        background-color: #eef6f0;
+    }
+
+    .order-table img.zoomable {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .order-table img.zoomed {
+        width: 220px;
+        height: 220px;
+        z-index: 1;
+    }
+
+    .order-table b {
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .order-table a {
+        color: #0077cc;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    .order-table a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<table class="order-table">
+    <tr>
+        <th>SI No</th>
+        <th>Product</th>
+        <th>Photo</th>
+        <th>Price</th>
+        <th>Details</th>
+        <th>Action</th>
+    </tr>
+    {% for i in sel %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.product.product_name }}</td>
+        <td>
+            <img src="{{ i.product.product_photo.url }}" class="zoomable" onclick="toggleZoom(this)">
+        </td>
+        <td>{{ i.product.product_price }}</td>
+        <td>{{ i.product.product_description }}</td>
+        <td>
+            {% if i.booking.booking_status == 1 %}
+                <b style="color:red">Payment pending.......</b>
+            {% elif i.booking.booking_status == 2 %}
+                <b style="color:green">Payment Completed</b>
+            {% elif i.booking.booking_status == 3 %}
+                <b style="color:green">Packaged</b>
+            {% elif i.booking.booking_status == 4 %}
+                <b style="color:rgba(18, 166, 30, 0.776)">Shipped</b><br><br>
+            {% elif i.booking.booking_status == 5 %}
+                <b style="color:green">Out Of Delivered</b>
+            {% elif i.booking.booking_status == 6 %}
+                <b style="color:green">Delivered</b>
+                <a href="{% url 'User:complaint' i.product.id id %}">Complaint</a> ||
+                <a href="{% url 'User:rating' i.product.id 1 %}">Rating</a> ||
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+    function toggleZoom(img) {
+        img.classList.toggle("zoomed");
+    }
+</script>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    Window.location="{% url 'User:viewbooking'  id %}"
+</script>
+{% endif %}
+{% endblock content %}

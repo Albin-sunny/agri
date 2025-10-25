@@ -1,0 +1,117 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+
+<div class="content-wrapper">
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table border="1" align="center">
+            <tr>
+                <td colspan="2"><h1 align="center">Feedback</h1></td>
+            </tr>
+            <tr>
+                <td>Feedback Content</td>
+                <td><input type="text" name="txt_content" id="txt_content" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <br><br><br>
+
+    <h1 align="center">VIEW</h1>
+
+    <table border="1" align="center" width="80%">
+        <thead>
+            <tr style="background-color:#4CAF50; color:white;">
+                <th>SI No</th>
+                <th>Date</th>
+                <th>Content</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in fed %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.feedback_date }}</td>
+                <td>{{ i.feedback_content }}</td>
+                <td><a href="{% url 'User:delfeedback' i.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% if msg %}
+<script>
+    alert('{{ msg }}');
+</script>
+{% endif %}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .content-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table td, table th {
+        padding: 10px;
+        text-align: center;
+    }
+
+    input[type="text"] {
+        padding: 5px;
+        width: 250px;
+    }
+
+    input[type="submit"] {
+        padding: 7px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #388e3c;
+    }
+
+    a {
+        color: #d32f2f;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+{% endblock content %}

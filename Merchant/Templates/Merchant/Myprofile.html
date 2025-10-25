@@ -1,0 +1,133 @@
+{% extends 'Merchant/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Profile - AgriFI</title>
+    <style>
+        body {
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+                no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+    
+        .profile-container {
+            max-width: 450px; /* made smaller */
+            margin: 30px auto;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        tr.header {
+            background-color: #e6ffe6;
+        }
+    
+        td {
+            padding: 8px; /* smaller padding */
+        }
+    
+        td.label {
+            font-weight: bold;
+            background-color: #f9f9f9;
+            width: 35%;
+        }
+    
+        img.profile-pic {
+            border-radius: 50%;
+            border: 2px solid #4CAF50;
+            width: 120px; /* smaller image */
+            height: 120px;
+            object-fit: cover;
+        }
+    
+        .button-group {
+            text-align: center;
+            background-color: #e6ffe6;
+        }
+    
+        a.button {
+            margin: 6px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4CAF50;
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+    
+        a.button:hover {
+            background-color: #45a049;
+        }
+    
+        .agri-title {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 22px;
+            margin-bottom: 16px;
+            font-family: 'Georgia', serif;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="profile-container">
+        <h2 class="agri-title">AgriFI Merchant Profile</h2>
+        <table>
+            <tr class="header">
+                <td colspan="2" style="text-align: center; padding: 20px;">
+                    <img src="{{sel.merchant_photo.url}}" width="150" height="150" alt="Merchant Photo" class="profile-pic">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Name</td>
+                <td>{{sel.merchant_name}}</td>
+            </tr>
+            <tr>
+                <td class="label">Email</td>
+                <td>{{sel.merchant_email}}</td>
+            </tr>
+            <tr>
+                <td class="label">Contact</td>
+                <td>{{sel.merchant_contact}}</td>
+            </tr>
+            <tr>
+                <td class="label">Address</td>
+                <td>{{sel.merchant_address}}</td>
+            </tr>
+            <tr>
+                <td class="label">District</td>
+                <td>{{sel.location.place.district.district_name}}</td>
+            </tr>
+            <tr>
+                <td class="label">Place</td>
+                <td>{{sel.location.place.place_name}}</td>
+            </tr>
+            <tr>
+                <td class="label">Location</td>
+                <td>{{sel.location.location_name}}</td>
+            </tr>
+            <tr class="button-group">
+                <td colspan="2">
+                    <a href="{% url 'Merchant:editprofile' %}" class="button">Edit Profile</a>
+                    <a href="{% url 'Merchant:changepassword' %}" class="button">Change Password</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock content %}

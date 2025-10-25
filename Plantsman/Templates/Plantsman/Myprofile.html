@@ -1,0 +1,178 @@
+{% extends 'Plantsman/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantsman Profile</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        .profile-card {
+            width: 70%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-avatar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar img {
+            border-radius: 50%;
+            border: 5px solid #4CAF50;
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            transition: border-color 0.3s ease;
+        }
+
+        .profile-avatar img:hover {
+            border-color: #388E3C;
+        }
+
+        .profile-details {
+            margin-bottom: 20px;
+        }
+
+        .profile-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .profile-details td, .profile-details th {
+            padding: 6px 10px;
+            text-align: left;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+
+        .profile-details th {
+            background-color: #4CAF50;
+            color: white;
+            width: 30%;
+        }
+
+        .profile-details td {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .profile-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .profile-buttons a {
+            text-decoration: none;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #4CAF50;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .profile-buttons a:hover {
+            background-color: #388E3C;
+            transform: scale(1.05);
+        }
+
+        .profile-buttons a:active {
+            background-color: #2E7D32;
+            transform: scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .profile-card {
+                padding: 20px;
+                margin: 30px auto;
+            }
+
+            .profile-avatar img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-details td, .profile-details th {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .profile-buttons a {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-avatar">
+            <img src="{{sel.plantsman_photo.url}}" alt="Profile Photo">
+        </div>
+        <div class="profile-details">
+            <table>
+                <tr>
+                    <th>Name:</th>
+                    <td>{{sel.plantsman_name}}</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>{{sel.plantsman_email}}</td>
+                </tr>
+                <tr>
+                    <th>Contact:</th>
+                    <td>{{sel.plantsman_contact}}</td>
+                </tr>
+                <tr>
+                    <th>Address:</th>
+                    <td>{{sel.plantsman_address}}</td>
+                </tr>
+                <tr>
+                    <th>District:</th>
+                    <td>{{sel.location.place.district.district_name}}</td>
+                </tr>
+                <tr>
+                    <th>Place:</th>
+                    <td>{{sel.location.place.place_name}}</td>
+                </tr>
+                <tr>
+                    <th>Location:</th>
+                    <td>{{sel.location.location_name}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="profile-buttons">
+            <a href="{% url 'Plantsman:editprofile' %}">Edit Profile</a>
+            <a href="{% url 'Plantsman:changepassword' %}">Change Password</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,183 @@
+{% extends 'Admin/Head.html' %}
+
+{% block content %}
+<style>
+    .content-container {
+        max-width: 900px;
+        margin: 120px auto 30px auto; /* Push away from header */
+        padding: 0 20px;
+    }
+
+    /* Form Styling */
+    form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 40px;
+        width: 70%; /* Make the form smaller */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Heading Outside the Table with Background */
+    .form-heading {
+        
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 6px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table th, table td {
+        padding: 12px 20px;
+        text-align: center;
+        color: #000000;
+        font-size: 14px;
+    }
+
+    th {
+        background-color: #200d62;
+        color: rgb(15, 3, 3);
+        text-transform: uppercase;
+    }
+
+    td a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #3608ab;
+        color: rgb(17, 8, 8);
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    td a:hover {
+        background-color: #45a049;
+    }
+
+    select, input[type="text"] {
+        padding: 8px;
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid #0a0707;
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 24px;
+        background-color: #802cb4;
+        color: rgb(21, 7, 7);
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    /* Style for form validation error */
+    .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="content-container">
+    <!-- Heading for the Form -->
+    <h1 align="center" style="background-color:none; color: #2d7c4a;">Place</h1>
+
+    <!-- Form for Adding Place -->
+    <form action="" method="post" id="place-form">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>District</td>
+                <td>
+                    <select name="sel_district" id="sel_district" required>
+                        <option value="">----select----</option>
+                        {% for i in dis %}
+                        <option {% if i.id == editdata.district_id %}selected{% endif %} value="{{i.id}}">
+                            {{i.district_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Place</td>
+                <td><input type="text" name="txt_place" id="txt_place" value="{{editdata.place_name}}" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+    </form>
+
+    <!-- Table for Existing Places -->
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>District</th>
+            <th>Place</th>
+            <th>Action</th>
+        </tr>
+        {% for i in place %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.district.district_name }}</td>
+            <td>{{ i.place_name }}</td>
+            <td>
+                <a href="{% url 'Admin:delplace' i.id %}">Delete</a> 
+                <a href="{% url 'Admin:edplace' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    // Simple form validation using JavaScript
+    document.getElementById('place-form').addEventListener('submit', function(event) {
+        var district = document.getElementById('sel_district');
+        var place = document.getElementById('txt_place');
+        var isValid = true;
+
+        // Check if district is selected
+        if (!district.value) {
+            alert("Please select a district.");
+            isValid = false;
+        }
+
+        // Check if place field is empty
+        if (!place.value) {
+            alert("Please enter a place name.");
+            isValid = false;
+        }
+
+        // If invalid, prevent form submission
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+{% endblock content %}

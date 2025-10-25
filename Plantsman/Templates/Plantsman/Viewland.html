@@ -1,0 +1,162 @@
+{% extends 'Plantsman/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Land</title>
+    <style>
+       body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+        .container {
+            width: 70%;
+            margin: 30px auto;
+        }
+
+        .table-header, .table-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .table-header {
+            font-weight: bold;
+            background-color: #0f7737;
+            color: white;
+            text-align: center;
+        }
+
+        .table-row {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Vertically center the row content */
+            padding: 10px;
+        }
+
+        .table-column {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-column img {
+            border-radius: 10px;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        /* Styling for action links */
+        .action-links a {
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .action-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .action-links a:active {
+            background-color: #004085;
+            transform: scale(1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .table-row {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .table-column {
+                font-size: 12px;
+                padding: 10px 5px;
+            }
+
+            .table-column img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align:center; color: #4311a7;">View Land</h1>
+
+        <!-- Table Header -->
+        <div class="table-header">
+            <div class="table-column">Si No</div>
+            <div class="table-column">File</div>
+            <div class="table-column">Details</div>
+            <div class="table-column">Proof</div>
+            <div class="table-column">Assign Date</div>
+            
+        </div>
+
+        <!-- Table Rows -->
+        {% for i in detail %}
+        <div class="table-row">
+            <div class="table-column">{{ forloop.counter }}</div>
+            <div class="table-column">
+                <img src="{{ i.land.land_file.url }}" alt="" onclick="toggleImage(this)">
+            </div>
+            <div class="table-column">{{ i.land.land_details }}</div>
+            <div class="table-column">
+                <img src="{{ i.land.land_proof.url }}" alt="" onclick="toggleImage(this)">
+            </div>
+        
+            <div class="table-column">{{ i.assign_date }}</div>
+            <div class="table-column">
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Function to toggle the image zoom
+        function toggleImage(img) {
+            if (img.style.transform === "scale(2)") {
+                img.style.transform = "scale(1)"; // Reset to normal size
+            } else {
+                img.style.transform = "scale(2)"; // Zoom in
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock content %}

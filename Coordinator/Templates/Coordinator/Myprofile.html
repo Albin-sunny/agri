@@ -1,0 +1,115 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<style>
+   body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+    .profile-container {
+        max-width: 550px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .profile-container td {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+
+    .profile-container td:first-child {
+        font-weight: bold;
+        color: #2b2b2b;
+        width: 35%;
+    }
+
+    .profile-container img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto 20px auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-container tr:hover {
+        background-color: #dfffd6; /* Light green background on hover */
+    }
+
+    .profile-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding-top: 20px;
+    }
+
+    .profile-buttons a {
+        padding: 8px 20px;
+        background-color: #28a745; /* Green color */
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+    .profile-buttons a:hover {
+        background-color: #218838; /* Darker green on hover */
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="profile-container">
+    <img src="{{sel.coordinator_photo.url}}" alt="Profile Photo">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>{{sel.coordinator_name}}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{sel.coordinator_email}}</td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td>{{sel.coordinator_contact}}</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>{{sel.coordinator_address}}</td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td>{{sel.location.place.district.district_name}}</td>
+        </tr>
+        <tr>
+            <td>Place</td>
+            <td>{{sel.location.place.place_name}}</td>
+        </tr>
+        <tr>
+            <td>Location</td>
+            <td>{{sel.location.location_name}}</td>
+        </tr>
+    </table>
+    <div class="profile-buttons">
+        <a href="{% url 'Coordinator:editprofile' %}">Edit Profile</a>
+        <a href="{% url 'Coordinator:changepassword' %}">Change Password</a>
+    </div>
+</div>
+{% endblock content %}

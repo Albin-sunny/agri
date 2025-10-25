@@ -1,0 +1,37 @@
+<table border="2">
+   
+<tr>
+    <th style="background-color:#2d7c4a; color: white;">Si no</th>
+    <th style="background-color:#2d7c4a; color: white;">Name</th>
+    <th style="background-color:#2d7c4a; color: white;">Email</th>
+    <th style="background-color:#2d7c4a; color: white;">Contact</th>
+    <th style="background-color:#2d7c4a; color: white;">Address</th>
+    <th style="background-color:#2d7c4a; color: white;">Photo</th>
+    <th style="background-color:#2d7c4a; color: white;">Rating</th>
+    <th style="background-color:#2d7c4a; color: white;">District</th>
+    <th style="background-color:#2d7c4a; color: white;">Place</th>
+    <th style="background-color:#2d7c4a; color: white;">Location</th>
+    <th style="background-color:#2d7c4a; color: white;">Action</th>
+    
+</tr>
+
+{% for i,j in coordinator %}
+<tr>
+<td>{{forloop.counter}}</td>
+<td> {{i.coordinator_name}}</td>
+<td> {{i.coordinator_email}}</td>
+<td> {{i.coordinator_contact}}</td>
+<td> {{i.coordinator_address}}</td>
+<td><img src="{{i.coordinator_photo.url}}"  width="150" height="150"alt=""></td>
+<td>{% for k in ar %} {% if k <= j %} <i class="fa-solid fa-star text-warning"></i> {% else %} <i class="fa-solid fa-star star-light"></i> {% endif %} {% endfor %}</td>
+<td>{{ i.location.place.district.district_name }}</td>
+<td> {{i.location.place.place_name}}</td>
+<td> {{i.location.location_name}}</td>
+<td align="center"><a href="{% url 'User:request' i.id sid %}" 
+    style="background-color: #1824c8; color: white; padding: 8px 14px; text-decoration: none; border-radius: 6px; display: inline-block; transition: background-color 0.3s;">
+    Request
+ </a>
+ </td>
+</tr>
+{%endfor%}
+</table>

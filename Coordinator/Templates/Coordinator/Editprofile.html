@@ -1,0 +1,104 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<style>
+    body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+    .profile-edit-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+    }
+
+    .profile-edit-table {
+        border-collapse: collapse;
+        width: 80%;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .profile-edit-table td {
+        padding: 15px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-edit-table tr:nth-child(even) {
+        background-color: #eafaf1;
+    }
+
+    .profile-edit-table tr:hover {
+        background-color: #c7f3d1;
+    }
+
+    .profile-edit-table input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .profile-edit-table input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        background-color: #28a745;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .profile-edit-table input[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2d6a4f;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="profile-edit-container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div style="width: 100%;">
+            <h1>Edit Profile</h1>
+            <table class="profile-edit-table" align="center">
+                <tr>
+                    <td>NAME</td>
+                    <td><input type="text" name="txt_name" id="txt_name" value="{{sele.coordinator_name}}"></td>
+                </tr>
+                <tr>
+                    <td>EMAIL</td>
+                    <td><input type="text" name="txt_email" id="txt_email" value="{{sele.coordinator_email}}"></td>
+                </tr>
+                <tr>
+                    <td>CONTACT</td>
+                    <td><input type="text" name="txt_contact" id="txt_contact" value="{{sele.coordinator_contact}}"></td>
+                </tr>
+                <tr>
+                    <td>ADDRESS</td>
+                    <td><input type="text" name="txt_address" id="txt_address" value="{{sele.coordinator_address}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Edit">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+{% endblock content %}

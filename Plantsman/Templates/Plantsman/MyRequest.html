@@ -1,0 +1,200 @@
+{% extends 'Plantsman/Head.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyRequest</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+        /* Header Section */
+        
+
+        /* Table Container */
+        .table-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e8f5e9;
+        }
+
+        td img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        td img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Action Button Styling */
+        .action-button {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px; /* Increased button size */
+            border-radius: 25px;
+            font-size: 16px;  /* Larger font */
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-block;
+        }
+
+        .action-button:hover {
+            background-color: #28a745;
+            transform: translateY(-3px);
+        }
+
+        .action-button:active {
+            background-color: #218838;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 12px;
+            }
+
+            td img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .action-button {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            table {
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            td img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .action-button {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1 style="text-align:center; color: #664caf;">MyRequest</h1>
+    </header>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Si no</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Photo</th>
+                <th>Proof</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+            {% for i in sel %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.Merchant.merchant_name }}</td>
+                <td>{{ i.Merchant.merchant_email }}</td>
+                <td>{{ i.Merchant.merchant_contact }}</td>
+                <td>{{ i.Merchant.merchant_address }}</td>
+                <td><img src="{{ i.Merchant.merchant_photo.url }}" alt="Merchant Photo"></td>
+                <td><img src="{{ i.Merchant.merchant_proof.url }}" alt="Merchant Proof"></td>
+                <td>{{ i.Merchant.location.place.district.district_name }}</td>
+                <td>{{ i.Merchant.location.place.place_name }}</td>
+                <td>{{ i.Merchant.location.location_name }}</td>
+                <td>
+                    {% if i.request_status == 1 %}
+                        Will Collect Product
+                    {% elif i.request_status == 3 %}
+                        Collected
+                    {% elif i.request_status == 4 %}
+                        Amount <b style="color:red">{{ i.request_amount }}</b> transferred to your account<br>
+                        <a class="action-button" href="{% url 'Plantsman:amount' i.id %}">Pay Now</a>
+                    {% elif i.request_status == 5 %}
+                        Paid to user
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Footer Section -->
+    <!-- <footer>
+        <p>&copy; 2025 MyRequest. All rights reserved.</p>
+    </footer> -->
+
+</body>
+</html>
+{% endblock content %}

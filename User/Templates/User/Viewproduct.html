@@ -1,0 +1,186 @@
+{% extends 'User/Head.html' %}
+
+{% block content %}
+<!-- Main container for page content -->
+<div class="container">
+    <h1 align="center">Product List</h1>
+
+    <!-- Card container for products -->
+    <div class="card-container">
+        {% for i,j in product %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ i.product_name }}</h3>
+            </div>
+            <div class="card-body">
+                <!-- Product Image (first) -->
+                <div class="card-image">
+                    <img src="{{ i.product_photo.url }}" alt="{{ i.product_name }}" width="150" height="150" 
+                         class="toggle-image" onclick="toggleImageSize(this)">
+                </div>
+
+                <!-- Rating Section (second) -->
+                <div class="card-rating">
+                    <strong>Rating:</strong>
+                    {% for k in ar %}
+                        {% if k <= j %}
+                            <i class="fa-solid fa-star text-warning"></i>
+                        {% else %}
+                            <i class="fa-solid fa-star star-light"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Serial Number Section (SI No) (third) -->
+                <div class="card-sino">
+                    <strong>SI No:</strong> {{ forloop.counter }}
+                </div>
+
+                <!-- Product Details Section (fourth) -->
+                <p><strong>Price:</strong> {{ i.product_price }}</p>
+                <p><strong>Description:</strong> {{ i.product_description }}</p>
+
+                <div class="card-footer">
+                    {% if i.total_stock == 0 %}
+                    <span style="color: red;">Out Of Stock</span>
+                    {% else %}
+                    <a href="{% url 'User:addtocart' i.id %}" class="action-button">Add to Cart</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Style Block -->
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+    /* Card container grid layout */
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 20px;
+    }
+
+    /* Individual card styling */
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        padding: 15px;
+        text-align: center;
+    }
+
+    /* Hover effect on card */
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Card header styling */
+    .card-header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    /* Card image styling */
+    .card-image img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    /* Toggle image enlarge */
+    .toggle-image.enlarged {
+        width: 300px !important;
+        height: 300px !important;
+        z-index: 1000;
+        position: relative;
+    }
+
+    /* Card body styling */
+    .card-body {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    /* Rating stars styling */
+    .card-rating i {
+        color: orange;
+    }
+
+    .star-light {
+        color: #ccc;
+    }
+
+    /* SI No styling */
+    .card-sino {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* Card footer with action button */
+    .card-footer {
+        margin-top: 15px;
+    }
+
+    .action-button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+        background-color: #2d7c4a;
+    }
+
+    .action-button:active {
+        background-color: #1e5f33;
+    }
+</style>
+
+<!-- Cart Link -->
+<div class="cart-link">
+    <!-- <a href="{% url 'User:Mycart' %}" class="action-button">My Cart</a> -->
+</div>
+
+<!-- Alert on Action -->
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'User:vproduct' %}";
+</script>
+{% endif %}
+
+<!-- Script for Image Toggle -->
+<script>
+    function toggleImageSize(img) {
+        img.classList.toggle("enlarged");
+    }
+</script>
+
+{% endblock content %}

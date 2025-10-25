@@ -1,0 +1,112 @@
+{% extends 'Merchant/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Basic Reset and Body Styling */
+        body {
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+                no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+
+        /* Header and Footer Styling */
+        header, footer {
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        /* Main Content */
+        main {
+            padding: 30px;
+            margin-top: 10px;
+        }
+
+        /* Title Styling */
+        h1, h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Table Styling */
+        table {
+            margin: auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 400px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        td {
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2e7d32;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Main Content Section -->
+    <main>
+        <form action="" method="post">
+            <h2>Update Amount</h2>
+            {% csrf_token %}
+            <table border="5" align="center">
+                <tr>
+                    <td>Amount</td>
+                    <td><input type="text" name="txt_amount" id="txt_amount" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </main>
+
+    
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,194 @@
+{% extends 'Merchant/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Body and General Styling */
+        body {
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+                no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Form Section */
+        form {
+            margin: 30px auto;
+            width: 40%; /* Reduced width for a more compact form */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-spacing: 0;
+        }
+
+        td {
+            padding: 8px; /* Reduced padding for compactness */
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 8px; /* Reduced padding for input fields */
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px; /* Smaller font size */
+        }
+
+        textarea {
+            height: 80px; /* Reduced height of textarea */
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            font-size: 14px; /* Smaller font size for the button */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+
+        /* Product Card Section */
+        .product-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            overflow: hidden;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        .product-card .si-no {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .product-card p {
+            color: #777;
+            font-size: 14px;
+            margin-top: 10px;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .product-card .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-top: 10px;
+        }
+
+        .product-card .action-links a {
+            padding: 8px 15px;
+            margin-top: 15px;
+            display: inline-block;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card .action-links a:hover {
+            background-color: #388e3c;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txt_name" id="txt_name" required></td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td><input type="file" name="txt_photo" id="txt_photo" required></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input type="text" name="txt_price" id="txt_price" required></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><textarea name="txt_discription" id="txt_discription" required></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <div class="product-card-container">
+        {% for i in mec %}
+        <div class="product-card">
+            <img src="{{i.product_photo.url}}" alt="Product Image">
+            <h3>{{i.product_name}}</h3>
+            <div class="si-no">SI No: {{forloop.counter}}</div>
+            <p><strong>Description:</strong> {{i.product_description}}</p>
+            <div class="price"><strong>Price:</strong> {{i.product_price}}</div>
+            <div class="action-links">
+                <a href="{% url 'Merchant:delproduct' i.id %}">Delete</a>
+                <a href="{% url 'Merchant:addstock' i.id %}">Add Stock</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
+{% endblock content %}

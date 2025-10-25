@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="2">
+        <h1>View Plantsman</h1>
+    <tr>
+    <td>Si no</td>
+    <td>Name</td>
+    <td>Email</td>
+    <td>Contact</td>
+    <td>Address</td>
+    <td>photo</td>
+    <td>proof</td>
+    <td>District</td>
+    <td>place</td>
+    <td>location</td>
+    <td>Action</td>
+    </tr>
+    {% for i in sel %}
+    <tr>
+    <td>{{forloop.counter}}</td>
+    <td> {{i.plantsman.plantsman_name}}</td>
+    <td> {{i.plantsman.plantsman_email}}</td>
+    <td> {{i.plantsman.plantsman_contact}}</td>
+    <td> {{i.plantsman.plantsman_address}}</td>
+    <td><img src="{{i.plantsman.plantsman_photo.url}}"  width="150" height="150"alt=""></td>
+    <td><img src="{{i.plantsman.plantsman_proof.url}}"  width="150" height="150"alt=""></td>
+    <td> {{i.plantsman.location.place.district.district_name}}</td>
+    <td> {{i.plantsman.location.place.place_name}}</td>
+    <td> {{i.plantsman.location.location_name}}</td>
+    
+    {% endfor %}
+</body>
+</html>

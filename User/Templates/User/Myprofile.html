@@ -1,0 +1,171 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(224, 247, 233, 0.8);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        
+
+        .profile-container {
+            width: 80%;
+            max-width: 500px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.02);  /* Slight hover effect for the container */
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            border: 4px solid #007bff; /* Blue border for the image */
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .profile-info {
+            margin-bottom: 15px;
+        }
+
+        .profile-info div {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 15px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-info div:hover {
+            background-color: #d4edda;  /* Green hover effect for profile info rows */
+        }
+
+        .profile-info div:last-child {
+            border-bottom: none;
+        }
+
+        .profile-info div span {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .profile-actions a {
+            text-decoration: none;
+            font-size: 15px;
+            color: #ffffff;
+            background-color: #007bff;  /* Default button background color */
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .profile-actions a:hover {
+            background-color: #28a745;  /* Green hover effect for buttons */
+            transform: translateY(-2px);
+        }
+
+        .profile-actions a:active {
+            background-color: #218838;  /* Darker green when clicked */
+            transform: translateY(0);
+        }
+
+        /* Green hover effect for input and text areas */
+        input[type="text"], input[type="email"], input[type="password"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover, textarea:hover {
+            border-color: #28a745;  /* Green border when hovering */
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus {
+            border-color: #28a745;  /* Green border when focused */
+            outline: none;
+        }
+
+        @media (max-width: 600px) {
+            .profile-container {
+                padding: 20px;
+            }
+
+            .profile-header img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-info div {
+                font-size: 14px;
+            }
+
+            .profile-actions a {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="{{sel.user_photo.url}}" alt="Profile Photo">
+        </div>
+
+        <div class="profile-info">
+            <div><strong>Name</strong><span>{{sel.user_name}}</span></div>
+            <div><strong>Email</strong><span>{{sel.user_email}}</span></div>
+            <div><strong>Contact</strong><span>{{sel.user_contact}}</span></div>
+            <div><strong>Address</strong><span>{{sel.user_address}}</span></div>
+            <div><strong>District</strong><span>{{sel.location.place.district.district_name}}</span></div>
+            <div><strong>Place</strong><span>{{sel.location.place.place_name}}</span></div>
+            <div><strong>Location</strong><span>{{sel.location.location_name}}</span></div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{% url 'User:editprofile' %}">EDIT Profile</a>
+            <a href="{% url 'User:changepassword' %}">Change Password</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

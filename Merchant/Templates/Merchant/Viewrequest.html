@@ -1,0 +1,171 @@
+{% extends 'Merchant/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Plantsman</title>
+    <style>
+        body {
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+                no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+        img.expanded {
+            transform: scale(2.5);
+            z-index: 5;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Style buttons only inside the action-table */
+        .action-table a {
+            display: inline-block;
+            margin: 3px 0;
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            color: white;
+            transition: 0.3s ease;
+        }
+
+        .action-table a[href*="accept"] {
+            background-color: #43a047;
+        }
+
+        .action-table a[href*="reject"] {
+            background-color: #e53935;
+        }
+
+        .action-table a[href*="collect"] {
+            background-color: #1e88e5;
+        }
+
+        .action-table a[href*="amount"] {
+            background-color: #0fd32f;
+            color: black;
+        }
+
+        .action-table a:hover {
+            background-color: #2e7d32 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>View Plantsman</h1>
+    <div class="action-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>SI No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Photo</th>
+                    <th>Proof</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in plant %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.assign.plantsman.plantsman_name }}</td>
+                    <td>{{ i.assign.plantsman.plantsman_email }}</td>
+                    <td>{{ i.assign.plantsman.plantsman_contact }}</td>
+                    <td>{{ i.assign.plantsman.plantsman_address }}</td>
+                    <td>
+                        <img src="{{ i.assign.plantsman.plantsman_photo.url }}" onclick="toggleExpand(this)">
+                    </td>
+                    <td>
+                        <img src="{{ i.assign.plantsman.plantsman_proof.url }}" onclick="toggleExpand(this)">
+                    </td>
+                    <td>{{ i.assign.plantsman.location.place.district.district_name }}</td>
+                    <td>{{ i.assign.plantsman.location.place.place_name }}</td>
+                    <td>{{ i.assign.plantsman.location.location_name }}</td>
+                    <td>
+                        {% if i.request_status == 0 %}
+                            <a href="{% url 'Merchant:viewrequestaccept' i.id %}">Accept</a><br>
+                            <a href="{% url 'Merchant:viewrequestreject' i.id %}">Reject</a>
+                        {% elif i.request_status == 1 %}
+                            <a href="{% url 'Merchant:viewrcollect' i.id %}">Collect</a><br>Accepted
+                        {% elif i.request_status == 2 %}
+                            Rejected
+                        {% elif i.request_status == 3 %}
+                            Collected<br>
+                            <a href="{% url 'Merchant:amount' i.id %}">Add Amount</a>
+                        {% elif i.request_status == 4 %}
+                            Payment Completed
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleExpand(img) {
+            document.querySelectorAll('img').forEach(i => {
+                if (i !== img) i.classList.remove('expanded');
+            });
+            img.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>
+{% endblock content %}

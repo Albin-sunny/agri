@@ -1,0 +1,112 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<style>
+    body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+    .table-wrapper {
+        max-width: 900px;
+        margin: 30px auto;
+        background-color: #fff;
+        padding: 10px 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        word-wrap: break-word;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #d4f5dd;
+        transform: scale(1.01);
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    td a {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    td a:hover {
+        background-color: #388e3c;
+        transform: translateY(-1px);
+    }
+
+    .table-wrapper:hover {
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+</style>
+
+<div class="table-wrapper">
+    <table>
+        <tr>
+            <th>SI No</th>
+            <th>User</th>
+            <th>Plantsman Name</th>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
+        {% for i in comp %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ i.user_id.user_name }}<br>
+                {{ i.user_id.user_email }}<br>
+                {{ i.user_id.user_contact }}
+            </td>
+            <td>{{ i.plantsman.plantsman_name }}</td>
+            <td>{{ i.complaint_date }}</td>
+            <td>{{ i.complaint_title }}</td>
+            <td>{{ i.complaint_content }}</td>
+            <td>
+                {% if i.complaint_reply == null %}
+                    <a href="{% url 'Coordinator:reply' i.id %}">Reply</a>
+                {% else %}
+                    {{ i.complaint_reply }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}

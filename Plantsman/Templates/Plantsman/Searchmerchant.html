@@ -1,0 +1,280 @@
+{% extends 'Plantsman/Head.html' %}
+
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .form-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        flex: 1;
+        min-width: 220px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+
+    select, input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+    }
+
+    table#search {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    table#search th {
+        background-color: #3c9a5f;
+        color: white;
+        padding: 10px;
+    }
+
+    table#search td {
+        padding: 10px;
+        border: 1px solid #e2e2e2;
+        text-align: center;
+        vertical-align: middle;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    table#search tr:nth-child(even) {
+        background-color: #f6fff8;
+    }
+
+    /* Hover effects for rows */
+    table#search tr:hover {
+        background-color: #e8f4ea;
+        transform: scale(1.03);
+    }
+
+    /* Hover effect for images */
+    table#search img {
+        max-width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    table#search img:hover {
+        transform: scale(1.1);
+    }
+
+    .btn {
+        background-color: #411597;
+        color: white;
+        padding: 8px 14px;
+        text-decoration: none;
+        border-radius: 6px;
+        display: inline-block;
+        font-size: 14px;
+        transition: background 0.3s;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #2d7c4a;
+    }
+
+    .text-warning {
+        color: orange;
+    }
+
+    .table-header {
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #3c9a5f;
+    }
+
+    @media (max-width: 768px) {
+        .form-row {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="form-card">
+        <form action="" method="post">  
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sel_district">District</label>
+                    <select name="sel_district" id="sel_district"> 
+                        <option value="">----select----</option>
+                        {% for i in dis %}
+                            <option value="{{i.id}}">{{i.district_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sel_place">Place</label>
+                    <select name="sel_place" id="sel_place">
+                        <option value="">----select----</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sel_location">Location</label>
+                    <select name="sel_location" id="sel_location">
+                        <option value="">----select----</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txt_name">Search by Name</label>
+                    <input type="text" id="txt_name" name="txt_name" placeholder="Enter Name" onkeyup="searchName()">
+                    <div id="result"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-header">
+        <h2>View Merchant</h2>
+    </div>
+
+    <div class="table-container">
+        <table id="search">
+            <thead>
+                <tr>
+                    <th>Si no</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Photo</th>
+                    <th>Proof</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in merchants %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.merchant_name }}</td>
+                    <td>{{ i.merchant_email }}</td>
+                    <td>{{ i.merchant_contact }}</td>
+                    <td>{{ i.merchant.merchant_address }}</td>
+                    <td><img src="{{ i.merchant_photo.url }}" width="150" height="150" alt=""></td>
+                    <td><img src="{{ i.merchant_proof.url }}" width="150" height="150" alt=""></td>
+                    <td>{{ i.location.place.district.district_name }}</td>
+                    <td>{{ i.location.place.place_name }}</td>
+                    <td>{{ i.location.location_name }}</td>
+                    <td>
+                        <a href="{% url 'Plantsman:request' i.id uid %}" class="btn">Request</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#sel_district").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Plantsman:ajaxplace' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did },
+            success: function (data) {
+                $("#sel_place").html(data);
+            },
+        });
+    });
+
+    $("#sel_place").change(function () {
+        var pid = $(this).val();
+        var ur = "{% url 'Plantsman:Ajaxlocation' %}"
+        $.ajax({
+            url: ur,
+            data: { pid: pid },
+            success: function (data) {
+                $("#sel_location").html(data);
+            },
+        });
+    });
+
+    $("#sel_location").change(function () {
+        var lid = $(this).val();
+        var ur = "{% url 'Plantsman:AjaxSearch' uid %}"
+        $.ajax({
+            url: ur,
+            data: { lid: lid },
+            success: function (data) {
+                $("#search").html(data);
+            },
+        });
+    });
+
+    function searchName() {
+        var name = document.getElementById("txt_name").value;
+        var ur = "{% url 'Plantsman:AjaxSearch' uid %}"
+        $.ajax({
+            url: ur,
+            data: { name: name },
+            success: function (data) {
+                $("#search").html(data);
+            },
+        });
+    }
+</script>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}")
+    window.location = "{% url 'Plantsman:Searchmerchant' uid %}"
+</script>
+{% endif %}
+
+{% endblock content %}

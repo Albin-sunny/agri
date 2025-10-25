@@ -1,0 +1,144 @@
+{% extends 'Guest/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRIFI - Login</title>
+    <style>
+        .login-wrapper {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9fafb;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #10b981;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.6rem;
+            color: #065f46;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background-color: #f9fafb;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #10b981;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #10b981;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #059669;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+            transform: scale(1.03);
+        }
+
+        .submit-btn:active {
+            transform: scale(1);
+            box-shadow: none;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem 1rem;
+                max-width: 90%;
+            }
+
+            .login-container h1 {
+                font-size: 1.4rem;
+            }
+
+            .form-group input {
+                padding: 0.65rem;
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h1>Login to AGRIFI</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="txt_email">Email</label>
+                    <input type="email" id="txt_email" name="txt_email" required>
+                </div>
+                <div class="form-group">
+                    <label for="txt_password">Password</label>
+                    <input type="password" id="txt_password" name="txt_password" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    {% if msg %}
+    <script>
+        alert('{{ msg }}');
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

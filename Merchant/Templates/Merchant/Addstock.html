@@ -1,0 +1,52 @@
+{% extends 'Merchant/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+<h1 align="center"></h1><h2>
+    {% csrf_token %}
+
+    <table border="5" align="center">
+        <tr>
+            <td>stock</td>
+            <td><input type="text" name="txt_stock" id="txt_stock" required></td>
+            </tr>
+            <tr >
+            <td colspan="2" align="center">
+                <input type="submit" value="Submit"></td>
+                <br>
+                <br>
+            </tr>
+</table>
+
+
+<br>
+<br><br>
+<table border="1" align="center">
+    <tr>
+    <td>SI no</td>
+    <td>Qty</td>
+    <td>Date</td>
+    <td>Action</td>
+    
+    </tr>
+        {% for i in sto  %}
+        <tr>
+    <td>{{forloop.counter}}</td>
+    <td>{{i.stock_qty}}</td>
+    <td>{{i.stock_date}}</td>
+    <td> <a href="{% url 'Merchant:delstock' i.id %}">Delete</a></td>
+    </td>
+{%endfor%}
+</table>
+        </form>
+
+</body>
+</html>
+{% endblock content %}

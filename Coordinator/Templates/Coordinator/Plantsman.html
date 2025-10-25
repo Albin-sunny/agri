@@ -1,0 +1,286 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Global Styles for the Page */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        header, footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 10px 10px 0 0; /* Rounded top corners */
+        }
+
+        /* Centering the Form and reducing size */
+        form {
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            width: 70%;
+            max-width: 600px;
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Table Styles for the Form */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Rounded corners for table cells */
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Styling for input, select, and submit */
+        input[type="text"], select, input[type="file"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 6px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Styling the images */
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px; /* Rounded corners for images */
+        }
+
+        /* Footer alignment */
+        footer {
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: #4CAF50;
+            border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+        }
+
+        /* Reduced width for View Table */
+        .view-table {
+            width: 85%;
+            margin: 20px auto;
+            border-radius: 10px; /* Rounded corners */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <header>
+        <h2>Coordinator Panel</h2>
+    </header> -->
+
+    <h1>Add and View Plantsman</h1>
+
+    <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txt_name" id="txt_name" required></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="txt_email" id="txt_email" required></td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td><input type="tel" name="txt_contact" id="txt_contact" required pattern="^\d{10}$" placeholder="Enter 10-digit phone number"></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><input type="text" name="txt_address" id="txt_address" required></td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td><input type="file" name="txt_photo" id="txt_photo" required></td>
+            </tr>
+            <tr>
+                <td>Proof</td>
+                <td><input type="file" name="txt_proof" id="txt_proof" required></td>
+            </tr>
+            <tr>
+                <td>District</td>
+                <td>
+                    <select name="sel_district" id="sel_district" required>
+                        <option value="">----select----</option>
+                        {% for i in dis %}
+                        <option value="{{i.id}}">{{i.district_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Place</td>
+                <td>
+                    <select name="sel_place" id="sel_place" required>
+                        <option value="">----select----</option>
+                        {% for i in place %}
+                        <option value="{{i.id}}">{{i.place_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>
+                    <select name="sel_Location" id="sel_Location" required>
+                        <option value="">----select----</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="txt_password" id="txt_password" required minlength="6"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <h1>View Plantsman</h1>
+    <table class="view-table">
+        <tr>
+            <th>Si no</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>Photo</th>
+            <th>Proof</th>
+            <th>District</th>
+            <th>Place</th>
+            <th>Location</th>
+            <th>Action</th>
+        </tr>
+        {% for i in sel %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.plantsman_name }}</td>
+            <td>{{ i.plantsman_email }}</td>
+            <td>{{ i.plantsman_contact }}</td>
+            <td>{{ i.plantsman_address }}</td>
+            <td><img src="{{ i.plantsman_photo.url }}" alt="Photo"></td>
+            <td><img src="{{ i.plantsman_proof.url }}" alt="Proof"></td>
+            <td>{{ i.location.place.district.district_name }}</td>
+            <td>{{ i.location.place.place_name }}</td>
+            <td>{{ i.location.location_name }}</td>
+            <td><a href="{% url 'Coordinator:delplant' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- <footer>
+        <p>Coordinator Panel &copy; 2025</p>
+    </footer> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#sel_district").change(function () {
+            var did = $(this).val();
+            var ur = "{% url 'Guest:ajaxplace' %}";
+            $.ajax({
+                url: ur,
+                data: { did: did },
+                success: function (data) {
+                    $("#sel_place").html(data);
+                },
+            });
+        });
+
+        $("#sel_place").change(function () {
+            var pid = $(this).val();
+            var ur = "{% url 'Guest:Ajaxlocation' %}";
+            $.ajax({
+                url: ur,
+                data: { pid: pid },
+                success: function (data) {
+                    $("#sel_Location").html(data);
+                },
+            });
+        });
+
+        function validateForm() {
+            var name = document.getElementById('txt_name').value;
+            var email = document.getElementById('txt_email').value;
+            var contact = document.getElementById('txt_contact').value;
+            var address = document.getElementById('txt_address').value;
+            var password = document.getElementById('txt_password').value;
+            var photo = document.getElementById('txt_photo').value;
+            var proof = document.getElementById('txt_proof').value;
+            
+            if (name == "" || email == "" || contact == "" || address == "" || password == "" || photo == "" || proof == "") {
+                alert("Please fill in all required fields.");
+                return false;
+            }
+
+            // Add any additional custom validation if needed here
+            return true;
+        }
+    </script>
+
+</body>
+</html>
+
+{% endblock content %}

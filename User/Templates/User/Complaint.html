@@ -1,0 +1,166 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 600px;
+        margin: 40px auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 24px;
+        color: #40916c;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2d6a4f;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid black; /* Default border black */
+        border-radius: 6px;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+        border-color: #40916c;
+        outline: none;
+    }
+
+    input[type="text"]:valid {
+        border-color: #198754; /* Green border on valid */
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #40916c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 150px;
+        display: block;
+        margin: 20px auto;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #2d6a4f;
+    }
+
+    .view-table-container {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .styled-table th {
+        background-color: #40916c;
+        color: white;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tr:hover {
+        background-color: #d8f3dc; /* Green hover */
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h1>Complaint</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="txt_title">Title</label>
+                <input type="text" name="txt_title" id="txt_title" placeholder="Enter complaint title" required minlength="3">
+            </div>
+            <div class="form-group">
+                <label for="txt_content">Content</label>
+                <input type="text" name="txt_content" id="txt_content" placeholder="Enter complaint content" required minlength="5">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="view-table-container">
+    <h1>View Complaints</h1>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>SI No</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Reply</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in sel %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.complaint_title }}</td>
+                <td>{{ i.complaint_content }}</td>
+                <td>{{ i.complaint_date }}</td>
+                <td>{{ i.complaint_reply }}</td>
+                <td><a href="{% url 'User:delcomplaint' i.id pid id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    Window.location="{% url 'User:complaint' pid id %}"
+</script>
+{% endif %}
+{% endblock content %}

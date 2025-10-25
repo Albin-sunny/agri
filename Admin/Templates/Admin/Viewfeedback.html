@@ -1,0 +1,33 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<table border="1" align="center" width="80%">
+    <tr>
+    <td>SI no</td>
+    <td>username</td>
+    <td>date</td>
+    <td>content</td>
+    <td>Action</td>
+    </tr>
+        {% for i in feed %}
+        <tr>
+    <td>{{forloop.counter}}</td>
+    <td >{{i.user.user_name}}<br>
+    <td >{{i.feedback_date}}</td>
+    <td >{{i.feedback_content}}</td>
+    <td><a href="{% url 'Admin:delfeedback' i.id %}">Delete</a></td>
+    </tr>
+{%endfor%}
+</table>
+</form>
+</body>
+</html>
+{% endblock content %}

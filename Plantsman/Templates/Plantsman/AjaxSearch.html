@@ -1,0 +1,35 @@
+<table border="2">
+   
+<tr>
+<td style="background-color:#2d7c4a; color: white;">Si no</td>
+<td style="background-color:#2d7c4a; color: white;">Name</td>
+<td style="background-color:#2d7c4a; color: white;">Email</td>
+<td style="background-color:#2d7c4a; color: white;">Contact</td>
+<td style="background-color:#2d7c4a; color: white;" >Address</td>
+<td style="background-color:#2d7c4a; color: white;" >photo</td>
+<td style="background-color:#2d7c4a; color: white;">Proof</td>
+<td  style="background-color:#2d7c4a; color: white;">District</td>
+<td style="background-color:#2d7c4a; color: white;">place</td>
+<td style="background-color:#2d7c4a; color: white;">location</td>
+<td style="background-color:#2d7c4a; color: white;">Action</td>
+</tr>
+{% for i in merchants %}
+<tr>
+<td>{{forloop.counter}}</td>
+<td> {{i.merchant_name}}</td>
+<td> {{i.merchant_email}}</td>
+<td> {{i.merchant_contact}}</td>
+<td> {{i.merchant.merchant_address}}</td>
+<td><img src="{{i.merchant_photo.url}}"  width="150" height="150"alt=""></td>
+<td><img src="{{i.merchant_proof.url}}"  width="150" height="150"alt=""></td>
+<td> {{i.location.place.district.district_name}}</td>
+<td> {{i.location.place.place_name}}</td>
+<td> {{i.location.location_name}}</td>
+<td  colspan="2" align="center" >
+    <a href="{% url 'Plantsman:request' i.id   uid %}"style="background-color: #1824c8; color: white; padding: 8px 14px; text-decoration: none; border-radius: 6px; display: inline-block; transition: background-color 0.3s;">Request</a>        
+</td>
+    
+</td>
+</tr>
+{%endfor%}
+</table>

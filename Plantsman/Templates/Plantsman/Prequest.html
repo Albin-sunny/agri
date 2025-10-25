@@ -1,0 +1,92 @@
+{% extends 'Plantsman/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Description</title>
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8);
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: #2e7d32;
+            font-size: 26px;
+        }
+        table {
+            margin: 30px auto;
+            border-collapse: collapse;
+            width: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        td {
+            padding: 14px;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+        td:first-child {
+            width: 35%;
+            background-color: #f0f0f0;
+            font-weight: 500;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        input[type="submit"] {
+            padding: 10px 25px;
+            font-size: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        <h1>Request Description</h1>
+        {% csrf_token %}
+        <table border="0" align="center">
+            <tr>
+                <td>Description</td>
+                <td><input type="text" name="txt_desc" id="txt_desc" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location="{% url 'User:Searchmerchant' mid %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

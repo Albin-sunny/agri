@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Registration Form</title>
+    
+    <style>
+        /* Scoped styles to avoid conflicts */
+        .login-wrapper * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .login-wrapper {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 0.5rem;
+            isolation: isolate;
+        }
+        .login-container {
+            background-color: #ffffff;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0.5rem 0;
+        }
+        .login-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px 8px;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background-color: #f9fafb;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:hover,
+        input[type="file"]:hover,
+        select:hover {
+            border-color: #60a5fa;
+            background-color: rgba(240, 248, 255, 0.95);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        }
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #2563eb;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem 1rem;
+                max-width: 95%;
+            }
+            td {
+                display: block;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td><input required type="text"  type="text" name="txt_name" id="txt_name" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"/></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="text" name="txt_email" id="txt_email" required></td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td><input type="text" name="txt_contact" id="txt_contact"  pattern="[7-9]{1}[0-9]{9}" 
+                        title="Phone number with 7-9 and remaing 9 digit with 0-9"/> </td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td><input type="text" name="txt_address" id="txt_address" required></td>
+                </tr>
+                <tr>
+                    <td>Photo</td>
+                    <td><input type="file" name="txt_photo" id="txt_photo" required></td>
+                </tr>
+                <tr>
+                    <td>Proof</td>
+                    <td><input type="file" name="txt_proof" id="txt_proof" required></td>
+                </tr>
+                <tr>
+                    <td>District</td>
+                    <td>
+                        <select name="sel_district" id="sel_district"> 
+                            <option value="">----select----</option>
+                            {% for i in dis %}
+                            <option value="{{i.id}}">{{i.district_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Place</td>
+                    <td>
+                        <select name="sel_place" id="sel_place">
+                            <option value="">----select----</option>
+                            {% for i in place %}
+                            <option value="{{i.id}}">{{i.place_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Location</td>
+                    <td>
+                        <select name="sel_Location" id="sel_Location">
+                            <option value="">----select----</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="text" name="txt_password" id="txt_password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 characters with at least one number, one uppercase and one lowercase letter"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#sel_district").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:ajaxplace' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did },
+            success: function (data) {
+                $("#sel_place").html(data);
+            },
+        });
+    });
+
+    $("#sel_place").change(function () {
+        var pid = $(this).val();
+        var ur = "{% url 'Guest:Ajaxlocation' %}"
+        $.ajax({
+            url: ur,
+            data: { pid: pid },
+            success: function (data) {
+                $("#sel_Location").html(data);
+            },
+        });
+    });
+</script>
+
+</body>
+</html>

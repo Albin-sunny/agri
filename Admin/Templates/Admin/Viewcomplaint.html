@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="2">
+        <h1>View Coordinator</h1>
+<tr>
+    <td>Si no</td>
+    <td>user</td>
+    <td>Email</td>
+    <td>Contact</td>
+    <td>Address</td>
+    <td>photo</td>
+    <td>proof</td>
+    <td>District</td>
+    <td>place</td>
+    <td>location</td>
+    <td>Action</td>
+</tr>
+{% for i in coor %}
+<tr>
+    <td>{{forloop.counter}}</td>
+    <td> {{i.coordinator_name}}</td>
+    <td> {{i.coordinator_email}}</td>
+    <td> {{i.coordinator_contact}}</td>
+    <td> {{i.coordinator_address}}</td>
+    <td><img src="{{i.coordinator_photo.url}}"  width="150" height="150"alt=""></td>
+    <td><img src="{{i.coordinator_proof.url}}"  width="150" height="150"alt=""></td>
+    <td> {{i.location.district.district_name}}</td>
+    <td> {{i.location.place.place_name}}</td>
+    <td> {{i.location.location_name}}</td>
+    <td  colspan="2" align="center" ><a href="{% url 'Admin:viewcoordinatoraccept' i.id %}"> Accept</a>
+        <a href="{% url 'Admin:viewcoordinatorreject' i.id %}"> reject</a></td>
+</tr>
+{%endfor%}
+</table>

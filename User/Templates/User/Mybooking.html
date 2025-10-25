@@ -1,0 +1,114 @@
+{% extends 'User/Head.html' %}
+
+{% block content %}
+<!-- Main container for the booking table -->
+<div class="container">
+    <h1 align="center">My Booking</h1>
+
+    <!-- Booking table -->
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>SI No</th>
+                <th>Booking Date</th>
+                <th>Booking Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in sel %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.booking_date }}</td>
+                <td>{{ i.booking_amount }}</td>
+                <td><a href="{% url 'User:viewbooking' i.id %}" class="view-button">View Booking</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Style Block -->
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        background-color: rgba(224, 247, 233, 0.8); /* Misty light green background */
+        background-blend-mode: overlay;
+        min-height: 100vh;
+    }
+
+    /* Main container */
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Table styling */
+    .booking-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.7); /* Misty effect on the table itself */
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for better visibility */
+    }
+
+    /* Table header styling */
+    .booking-table th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+
+    /* Table data styling */
+    .booking-table td {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+    }
+
+    /* Action button styling */
+    .view-button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .view-button:hover {
+        background-color: #2d7c4a;
+    }
+
+    .view-button:active {
+        background-color: #1e5f33;
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 768px) {
+        .booking-table th, .booking-table td {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .view-button {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+    }
+</style>
+
+{% endblock content %}

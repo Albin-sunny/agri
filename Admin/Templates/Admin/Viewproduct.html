@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+        <td>SI no</td>
+        <td>Name</td>
+        <td>photo</td>
+        <td>price</td>
+        <td>Discription</td>
+        <td>Action</td>
+        
+        </tr>
+            {% for i in Rejectmer %}
+            <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.product_name}}</td>
+        <td><img src="{{i.product_photo.url}}" width="150" height="150"  alt=""></td>
+        <td>{{i.product_price}}</td>
+        <td>{{i.product_discription}}</td>
+        </td>
+    {%endfor%}
+    </table>
+</body>
+</html>

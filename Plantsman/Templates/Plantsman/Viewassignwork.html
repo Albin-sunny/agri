@@ -1,0 +1,172 @@
+{% extends 'Plantsman/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Assignwork</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+        }
+
+        .table-header, .table-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .table-header {
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .table-row {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            text-align: center; /* Center content in each cell */
+        }
+
+        .table-column {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center content vertically */
+        }
+
+        .table-column img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+
+        .action-links {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center;
+        }
+
+        .action-links a {
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px; /* Add space between buttons */
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .action-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .action-links a:active {
+            background-color: #004085;
+            transform: scale(1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .table-row {
+                flex-direction: column;
+            }
+
+            .table-column {
+                font-size: 12px;
+                padding: 10px 5px;
+            }
+
+            .table-column img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align:center; color: #4CAF50;">View Assignwork</h1>
+        
+        <!-- Table Header -->
+        <div class="table-header">
+            <div class="table-column">Si No</div>
+            <div class="table-column">Name</div>
+            <div class="table-column">Email</div>
+            <div class="table-column">Contact</div>
+            <div class="table-column">Address</div>
+            <div class="table-column">Photo</div>
+            <div class="table-column">District</div>
+            <div class="table-column">Place</div>
+            <div class="table-column">Location</div>
+            <div class="table-column">Action</div>
+        </div>
+
+        <!-- Table Rows -->
+        {% for i in land %}
+        <div class="table-row">
+            <div class="table-column">{{ forloop.counter }}</div>
+            <div class="table-column">{{ i.land.user.user_name }}</div>
+            <div class="table-column">{{ i.land.user.user_email }}</div>
+            <div class="table-column">{{ i.land.user.user_contact }}</div>
+            <div class="table-column">{{ i.land.user.user_address }}</div>
+            <div class="table-column">
+                <img src="{{ i.land.user.user_photo.url }}" alt="" onclick="toggleImage(this)">
+            </div>
+            <div class="table-column">{{ i.land.user.location.place.district.district_name }}</div>
+            <div class="table-column">{{ i.land.user.location.place.place_name }}</div>
+            <div class="table-column">{{ i.land.user.location.location_name }}</div>
+            <div class="table-column">
+                <div class="action-links">
+                    <a href="{% url 'Plantsman:viewland' i.land.id %}">View Land Details</a>
+                    <a href="{% url 'Plantsman:chatpage' i.land.user.id %}">Chat</a>
+                    <a href="{% url 'Plantsman:Searchmerchant' i.id %}">Search Merchant</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleImage(img) {
+            if (img.style.transform === "scale(2)") {
+                img.style.transform = "scale(1)";
+            } else {
+                img.style.transform = "scale(2)";
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock content %}

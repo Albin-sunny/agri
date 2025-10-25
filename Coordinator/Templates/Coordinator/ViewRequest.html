@@ -1,0 +1,182 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Request</title>
+    <style>
+        /* Global Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        /* Header Styling */
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Main Container for content */
+        .container {
+            width: 90%;
+            max-width: 1000px; /* Slightly larger for better space utilization */
+            margin: 0 auto;
+            padding: 20px;
+           
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 70%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            font-size: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+           
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #333;
+            text-align: center;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Image Styling */
+        img {
+            border-radius: 4px;
+            object-fit: cover;
+            width: 120px;
+            height: 120px;
+        }
+
+        /* Link Styling */
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+
+        /* Footer Styling */
+        
+        footer p {
+            margin: 0;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+
+            footer {
+                font-size: 12px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Si no</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Photo</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in land %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.land.user.user_name }}</td>
+                    <td>{{ i.land.user.user_email }}</td>
+                    <td>{{ i.land.user.user_contact }}</td>
+                    <td>{{ i.land.user.user_address }}</td>
+                    <td><img src="{{ i.land.user.user_photo.url }}" alt="User Photo"></td>
+                    <td>{{ i.land.user.location.place.district.district_name }}</td>
+                    <td>{{ i.land.user.location.place.place_name }}</td>
+                    <td>{{ i.land.user.location.location_name }}</td>
+                    <td>
+                        <a href="{% url 'Coordinator:viewland' i.land.id %}" 
+                           style="display: inline-block; padding: 6px 12px; background-color: #471099; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;"
+                           onmouseover="this.style.backgroundColor='#350b73'; this.style.color='#ffcc00';" 
+                           onmouseout="this.style.backgroundColor='#471099'; this.style.color='white';">
+                           View Details
+                        </a>
+                    </td>
+                    
+                    
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    
+
+</body>
+</html>
+{% endblock content %}

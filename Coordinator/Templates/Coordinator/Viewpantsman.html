@@ -1,0 +1,173 @@
+{% extends 'Coordinator/Head.html' %}
+{% block content %}
+<div class="container">
+    <h1 align="center">View Plantsman</h1>
+    <div class="card-container">
+        {% for i in sel %}
+        <div class="card">
+
+            <!-- Name as Card Header -->
+            <div class="card-header">
+                {{ i.plantsman_name }}
+            </div>
+
+            <!-- Round Profile Image -->
+            <div class="card-image">
+                <img src="{{i.plantsman_photo.url}}" alt="Photo" class="photo-image toggle-image" onclick="toggleImageSize(this)">
+            </div>
+
+            <!-- Details Section -->
+            <div class="card-content">
+                <p><strong>Email:</strong> {{ i.plantsman_email }}</p>
+                <p><strong>Contact:</strong> {{ i.plantsman_contact }}</p>
+                <p><strong>Address:</strong> {{ i.plantsman_address }}</p>
+                <p><strong>District:</strong> {{ i.location.place.district.district_name }}</p>
+                <p><strong>Place:</strong> {{ i.location.place.place_name }}</p>
+                <p><strong>Location:</strong> {{ i.location.location_name }}</p>
+
+                <!-- Proof Label and Image side-by-side -->
+                <div class="proof-section">
+                    <strong>Proof:</strong>
+                    <img src="{{i.plantsman_proof.url}}" alt="Proof" class="proof-image toggle-image" onclick="toggleImageSize(this)">
+                </div>
+
+                <!-- Assign Button -->
+                <a href="{% url 'Coordinator:assignplant' i.id lid %}" class="action-button">Assign</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Coordinator:vplant' lid %}";
+</script>
+{% endif %}
+
+<style>
+    body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(200, 230, 201, 0.7);
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+.container {
+    padding: 20px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Card styling */
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Round photo */
+.photo-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Proof image */
+.proof-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 6px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+/* Keep shape after toggle */
+.toggle-image.enlarged {
+    width: 300px !important;
+    height: 300px !important;
+    z-index: 1000;
+    position: relative;
+}
+
+.photo-image.enlarged {
+    border-radius: 50% !important;
+}
+
+.proof-image.enlarged {
+    border-radius: 6px !important;
+}
+
+.card-content p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+/* Proof label + image in a row */
+.proof-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+    color: #444;
+}
+
+/* Assign button */
+.action-button {
+    display: inline-block;
+    margin-top: 12px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #2e7d32;
+}
+</style>
+
+<script>
+function toggleImageSize(img) {
+    img.classList.toggle("enlarged");
+}
+</script>
+{% endblock content %}
